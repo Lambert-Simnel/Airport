@@ -12,7 +12,7 @@ public class BookingSystem {
         Scanner in = new Scanner(System.in);
         System.out.println("Welcome to the Happy Campany!!");
         System.out.println("What would you like to do? Type \"B\" means Booking, Type \"C\" means Canceling);
-                
+        ch
         in.next();
 
         // list all destinations you can choose

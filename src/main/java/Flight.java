@@ -33,7 +33,7 @@ public class Flight {
         return flightID;
     }
 
-    public String getPrintFlightID() { return integer}
+    public String getPrintFlightID() { return Integer.toString(flightID); }
 
     public void setFlightID(int flightID) {
         this.flightID = flightID;
