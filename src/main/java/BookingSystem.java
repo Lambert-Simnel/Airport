@@ -13,7 +13,9 @@ public class BookingSystem {
         System.out.println("Welcome to the Happy Campany!!");
         System.out.println("What would you like to do? Type \"B\" means Booking, Type \"C\" means Canceling");
         String bookOrCancel = in.nextLine();
-        if (bookOrCancel.isEqual)
+        if (bookOrCancel.isEqualTo("C")){
+
+        }
 
 
         // list all destinations you can choose
