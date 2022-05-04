@@ -11,9 +11,10 @@ public class BookingSystem {
 
         Scanner in = new Scanner(System.in);
         System.out.println("Welcome to the Happy Campany!!");
-        System.out.println("What would you like to do? Type \"B\" means Booking, Type \"C\" means Canceling);
-        ch
-        in.next();
+        System.out.println("What would you like to do? Type \"B\" means Booking, Type \"C\" means Canceling");
+        String bookOrCancel = in.nextLine();
+        if (bookOrCancel.isEqual)
+
 
         // list all destinations you can choose
 
@@ -39,5 +40,5 @@ public class BookingSystem {
         return flights;
     }
 
-    public void printFLights() { flights.stream().map(f -> System.out.println(f.getFlightID()));}
+    public void printFLights() { flights.stream().map(f -> System.out.println(f.getPrintFlightID()));}
 }
