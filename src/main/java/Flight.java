@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class Flight {
 
@@ -11,6 +10,8 @@ public class Flight {
         this.passengerManifest = new ArrayList<Passenger>();
         this.flightDestination = flightDestination;
     }
+    //will create some flight objects in the CLI class
+
 
     public ArrayList<Passenger> getPassengerManifest() {
         return passengerManifest;
@@ -32,8 +33,6 @@ public class Flight {
         return flightID;
     }
 
-    public String getPrintFlightID() { return flightID; }
-
     public void setFlightID(String flightID) {
         this.flightID = flightID;
     }
@@ -45,6 +44,9 @@ public class Flight {
     public void setFlightDestination(String flightDestination) {
         this.flightDestination = flightDestination;
     }
+
+
+
 
 
 

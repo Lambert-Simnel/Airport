@@ -1,12 +1,11 @@
 public class Passenger {
 
     private String name;
-    private int ID;
-    private String contactInfo;
+    private String ID;
+    private int contactInfo;
 
-    public Passenger(String name, int ID, String contactInfo) {
+    public Passenger(String name, int contactInfo) {
         this.name = name;
-        this.ID = ID;
         this.contactInfo = contactInfo;
     }
 
@@ -18,19 +17,19 @@ public class Passenger {
         this.name = name;
     }
 
-    public int getID() {
+    public String getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(String ID) {
         this.ID = ID;
     }
 
-    public String getContactInfo() {
+    public int getContactInfo() {
         return contactInfo;
     }
 
-    public void setContactInfo(String contactInfo) {
+    public void setContactInfo(int contactInfo) {
         this.contactInfo = contactInfo;
     }
 
