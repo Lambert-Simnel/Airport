@@ -9,10 +9,12 @@ public class BookingSystem {
 
     private ArrayList<Passenger> passengers;
     private ArrayList<Flight> flights;
+    private ArrayList<String> destinations;
 
     public BookingSystem(){
         this.passengers = new ArrayList<>();
         this.flights = new ArrayList<>();
+        this.destinations = new ArrayList<>();
     }
 
 
@@ -65,10 +67,10 @@ public class BookingSystem {
     public void writeDetailsToFile(Passenger passenger, Flight flight){
         try {
             FileWriter fileWriter = new FileWriter("bookingDetails.txt");
-            fileWriter.write("Passenger name: " + passenger.getName());
-            fileWriter.write("Passenger ID: " + passenger.getID());
-            fileWriter.write("Passenger contact information: " + passenger.getContactInfo());
-            fileWriter.write("Flight Destination: " + flight.getFlightDestination());
+            fileWriter.write("Passenger name: " + passenger.getName() + "\n");
+            fileWriter.write("Passenger ID: " + passenger.getID() + "\n");
+            fileWriter.write("Passenger contact information: " + passenger.getContactInfo() + "\n");
+            fileWriter.write("Flight Destination: " + flight.getFlightDestination() + "\n");
             fileWriter.write("Flight ID: " + flight.getFlightID());
             fileWriter.close();
         } catch (IOException e) {
@@ -76,35 +78,48 @@ public class BookingSystem {
         }
     }
 
-    public void findAndPrintFlightByDestination(String targetDestination) {
-        flights.stream().filter(f -> f.equals(targetDestination)).forEach(System.out::println);
+
+
+    public void findAndPrintFlightByDestination(String targetDestination) throws Exception{
+        if (flights.stream().noneMatch(f -> f.getFlightDestination().equals(targetDestination))){
+                    throw new Exception("Destination not found!");
+                } else{
+            flights.stream().filter(f -> f.getFlightDestination().equals(targetDestination)).forEach(flight -> System.out.println(flight.getFlightID() + " - " + flight.getFlightDestination()));
+        }
+
     }
-
-
-
-
-
 
     public List<Flight> getFlights() {
         return flights;
     }
 
-    public void printFLights() { flights.forEach(System.out::println);}
+    public void printFLights() throws Exception{
+        if(flights.isEmpty()){
+            throw new Exception("No flights!");
+        } else flights.forEach(flight -> System.out.println(flight.getFlightID() + " - " + flight.getFlightDestination()));
+    }
 
     public void printPassengers() {
-        passengers.forEach(System.out::println);
+        passengers.forEach(passenger -> System.out.println(passenger.getID() + " - " + passenger.getName()));
     }
 
     public List<Passenger> getPassengers() {
         return passengers;
     }
 
-    public void setPassengers(List<Passenger> passengers) {
+    public void setPassengers(ArrayList<Passenger> passengers) {
         this.passengers = passengers;
     }
 
-    public void setFlights(List<Flight> flights) {
+    public void setFlights(ArrayList<Flight> flights) {
         this.flights = flights;
     }
 
+    public ArrayList<String> getDestinations() {
+        return destinations;
+    }
+
+    public void setDestinations(ArrayList<String> destinations) {
+        this.destinations = destinations;
+    }
 }

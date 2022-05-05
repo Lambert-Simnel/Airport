@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class CLI {
@@ -42,39 +44,49 @@ public class CLI {
                     bookingSystem.addFlight(new Flight(askForLine(in)));
                     break;
                 case 2:
-                    bookingSystem.printFLights();
+                    try {
+                        bookingSystem.printFLights();
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 3:
                     System.out.println("You are trying to delete the flight route");
-                    bookingSystem.printFLights();
-                    System.out.println("Please input the flight ID");
-                    String flightIDForCancel = in.next();
-                    for (int i = 0; i < bookingSystem.getFlights().size(); i++){
-                        if (bookingSystem.getFlights().get(i).getFlightID() == flightIDForCancel){
-                            bookingSystem.cancelFlight(bookingSystem.getFlights().get(i));
-                        } else {
-                            System.out.println("You enter the invalid ID");
-                        }
+                    try {
+                        bookingSystem.printFLights();
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
                     }
+                    System.out.println("Please input the flight ID");
+                    String flightIDForCancel = askForLine(in);
+                    Flight flightLineToCancel = bookingSystem.findFlightByID(flightIDForCancel);
+                    bookingSystem.cancelFlight(flightLineToCancel);
                     break;
+
                 case 4:
-                    System.out.println("Enter destination you want to search for or EXIT to exit");
                     boolean searchLoop = true;
+                    bookingSystem.addFlight(new Flight("London"));
                     while(searchLoop) {
-                        String searchDestination = in.next();
+                    System.out.println("Enter destination you want to search for or EXIT to exit");
+                        String searchDestination = askForLine(in);
                         try {
                             if (searchDestination.equals("EXIT")) {
                                 searchLoop = false;
                             } else {
                                 bookingSystem.findAndPrintFlightByDestination(searchDestination);
                             }
-                        } catch (RuntimeException e) {
-                            System.out.println("You must enter a valid destination");
-                            in.next();
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
                         }
                     }
                     break;
+
                 case 5:
+                    bookingSystem.printFLights();
+                    System.out.println("Enter Flight ID");
+                    bookingSystem.findFlightByID(askForLine(in)).printManifest();
+                    break;
+                case 6:
                     break;
             }
         } while (menuSelection != 5);
@@ -96,10 +108,10 @@ public class CLI {
                     bookingSystem.addPassenger(new Passenger(name, contactInfo));
                     break;
                 case 2:
-                    bookingSystem.printPassengers();
                     bookingSystem.printFLights();
                     System.out.println("Enter Flight ID");
                     String flightID = askForLine(in);
+                    bookingSystem.printPassengers();
                     System.out.println("Enter Passenger ID");
                     String passID = askForLine(in);
                     try {
@@ -109,6 +121,7 @@ public class CLI {
                     }
                     break;
                 case 3:
+                    bookingSystem.printPassengers();
                     System.out.println("Enter Passenger ID");
                     passID = askForLine(in);
                     System.out.println("Enter Flight ID");
@@ -120,6 +133,10 @@ public class CLI {
                     }
                     break;
                 case 4:
+                    System.out.println("All passengers :");
+                    bookingSystem.printPassengers();
+                    break;
+                case 5:
                     break;
 
             }
@@ -144,7 +161,8 @@ public class CLI {
         System.out.println("2) Display all flights");
         System.out.println("3) Cancel flight");
         System.out.println("4) Search for destination");
-        System.out.println("5) Return to main menu");
+        System.out.println("5) Print passenger manifest");
+        System.out.println("6) Return to main menu");
         System.out.println("===================");
     }
 
@@ -155,7 +173,8 @@ public class CLI {
         System.out.println("1) Create new passenger");
         System.out.println("2) Book passenger onto flight");
         System.out.println("3) Cancel passenger's flight");
-        System.out.println("4) Return to main menu");
+        System.out.println("4) Display all passengers");
+        System.out.println("5) Return to main menu");
         System.out.println("===================");
     }
 

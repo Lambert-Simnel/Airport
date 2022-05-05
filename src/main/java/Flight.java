@@ -45,12 +45,8 @@ public class Flight {
         this.flightDestination = flightDestination;
     }
 
-
-
-
-
-
-
-
+    public void printManifest(){
+        passengerManifest.forEach(passenger -> System.out.println(passenger.getName()));
+    }
 
 }
