@@ -4,12 +4,11 @@ import java.util.List;
 public class Flight {
 
     private ArrayList<Passenger> passengerManifest;
-    private int flightID;
+    private String flightID;
     private String flightDestination;
 
-    public Flight(int flightID, String flightDestination) {
+    public Flight(String flightDestination) {
         this.passengerManifest = new ArrayList<Passenger>();
-        this.flightID = flightID;
         this.flightDestination = flightDestination;
     }
 
@@ -29,13 +28,13 @@ public class Flight {
         this.passengerManifest.remove(removedPassenger);
     }
 
-    public int getFlightID() {
+    public String getFlightID() {
         return flightID;
     }
 
-    public String getPrintFlightID() { return Integer.toString(flightID); }
+    public String getPrintFlightID() { return flightID; }
 
-    public void setFlightID(int flightID) {
+    public void setFlightID(String flightID) {
         this.flightID = flightID;
     }
 
