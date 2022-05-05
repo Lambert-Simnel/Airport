@@ -20,7 +20,6 @@ public class BookingSystem {
 
 // add, cancel and find flight
     public void addFlight(Flight flight){
-        flight.setFlightID(UUID.randomUUID().toString());
         flights.add(flight);
     }
 
@@ -41,7 +40,6 @@ public class BookingSystem {
 
 // create id for the passenger and add passenger to the flight, find passenger
     public void addPassenger(Passenger passenger) {
-        passenger.setID(UUID.randomUUID().toString());
         passengers.add(passenger);
     }
 

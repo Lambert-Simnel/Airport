@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Flight {
 
@@ -9,6 +10,7 @@ public class Flight {
     public Flight(String flightDestination) {
         this.passengerManifest = new ArrayList<Passenger>();
         this.flightDestination = flightDestination;
+        this.flightID = UUID.randomUUID().toString();
     }
     //will create some flight objects in the CLI class
 

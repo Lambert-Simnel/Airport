@@ -49,6 +49,11 @@ class BookingSystemTest {
 
     @Test
     public void writeDetailsToFile(){
+        testFlight.setFlightID("3a282889-a162-42cc-bad7-7ddac1b78f93");
+        testFlight.setFlightDestination("London");
+        testPassenger.setID("3a282889-a162-42cc-bad7-7ddac1b78f93");
+        testPassenger.setContactInfo(1234556);
+        testPassenger.setName("test");
         testSystem.addFlight(testFlight);
         testSystem.addPassenger(testPassenger);
         try {
@@ -61,9 +66,13 @@ class BookingSystemTest {
         File createdFile = new File("bookingDetails.txt");
         File validFile = new File("src/test/Resources/validBookingDetails.txt");
 
-        assertEquals("The files differ!",
-                FileUtils.readFileToString(file1, "utf-8"),
-                FileUtils.readFileToString(file2, "utf-8"));
+        try {
+            assertEquals("The files differ!",
+                    FileUtils.readFileToString(createdFile, "utf-8"),
+                    FileUtils.readFileToString(validFile, "utf-8"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

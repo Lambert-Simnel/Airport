@@ -1,3 +1,5 @@
+import java.util.UUID;
+
 public class Passenger {
 
     private String name;
@@ -7,6 +9,7 @@ public class Passenger {
     public Passenger(String name, int contactInfo) {
         this.name = name;
         this.contactInfo = contactInfo;
+        this.ID = UUID.randomUUID().toString();
     }
 
     public String getName() {

@@ -56,6 +56,7 @@ public class CLI {
                         bookingSystem.printFLights();
                     } catch (Exception e){
                         System.out.println(e.getMessage());
+                        break;
                     }
                     System.out.println("Please input the flight ID");
                     String flightIDForCancel = askForLine(in);
@@ -82,7 +83,7 @@ public class CLI {
                     break;
 
                 case 5:
-                    bookingSystem.printFLights();
+//                    bookingSystem.printFLights();
                     System.out.println("Enter Flight ID");
                     bookingSystem.findFlightByID(askForLine(in)).printManifest();
                     break;
@@ -108,7 +109,7 @@ public class CLI {
                     bookingSystem.addPassenger(new Passenger(name, contactInfo));
                     break;
                 case 2:
-                    bookingSystem.printFLights();
+//                    bookingSystem.printFLights();
                     System.out.println("Enter Flight ID");
                     String flightID = askForLine(in);
                     bookingSystem.printPassengers();
