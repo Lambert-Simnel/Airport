@@ -1,16 +1,18 @@
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class BookingSystem {
 
-    private List<Passenger> passengers;
-    private List<Flight> flights;
+    private ArrayList<Passenger> passengers;
+    private ArrayList<Flight> flights;
 
     public BookingSystem(){
-        this.passengers = new List<Passenger>();
-        this.flights = new List<Flight>();
+        this.passengers = new ArrayList<>();
+        this.flights = new ArrayList<>();
     }
 
 
