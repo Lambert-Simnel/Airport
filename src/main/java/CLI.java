@@ -42,7 +42,7 @@ public class CLI {
             switch (menuSelection) {
                 case 1:
                     System.out.println("Enter destination");
-                    bookingSystem.addFlight(new Flight(askForLine(in)));
+                    bookingSystem.addFlight(new Flight(askForLine(in, 1)));
                     break;
                 case 2:
                     try {
@@ -60,10 +60,12 @@ public class CLI {
                         break;
                     }
                     System.out.println("Please input the flight ID");
-                    String flightIDForCancel = askForLine(in);
+                    String flightIDForCancel = askForLine(in,1);
+                    System.out.println(flightIDForCancel);
                     try {
                         Flight flightLineToCancel = bookingSystem.findFlightByID(flightIDForCancel);
                         bookingSystem.cancelFlight(flightLineToCancel);
+                        System.out.println("\nFlight cancelled!");
                     } catch (Exception e){
                         System.out.println(e.getMessage());
                     }
@@ -73,7 +75,7 @@ public class CLI {
                     boolean searchLoop = true;
                     while(searchLoop) {
                     System.out.println("Enter destination you want to search for or type \"EXIT\" to exit");
-                        String searchDestination = askForLine(in);
+                        String searchDestination = askForLine(in, 1);
                         try {
                             if (searchDestination.equals("EXIT")) {
                                 searchLoop = false;
@@ -97,7 +99,7 @@ public class CLI {
                     }
                     System.out.println("Enter Flight ID");
                     try {
-                        bookingSystem.findFlightByID(askForLine(in)).printManifest();
+                        bookingSystem.findFlightByID(askForLine(in, 1)).printManifest();
                     } catch (Exception e){
                         System.out.println(e.getMessage());
                     }
@@ -118,7 +120,7 @@ public class CLI {
             switch (menuSelection) {
                 case 1:
                     System.out.println("Enter passenger name");
-                    String name = askForLine(in);
+                    String name = askForLine(in, 1);
                     System.out.println("Enter contact info");
                     int contactInfo = askForNumber(in);
                     bookingSystem.addPassenger(new Passenger(name, contactInfo));
@@ -131,7 +133,7 @@ public class CLI {
                         break;
                     }
                     System.out.println("Enter Flight ID");
-                    String flightID = askForLine(in);
+                    String flightID = askForLine(in, 1);
                     try {
                         bookingSystem.printPassengers();
                     } catch (Exception e){
@@ -139,14 +141,15 @@ public class CLI {
                         break;
                     }
                     System.out.println("Enter Passenger ID");
-                    String passID = askForLine(in);
+                    String passID = askForLine(in, 0);
                     try {
                         bookingSystem.addPassengerToFlight(flightID, passID);
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
+                        System.out.println("\nFlight booked!");
+                        break;
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
                         break;
                     }
-                    break;
                 case 3:
                     try {
                         bookingSystem.printPassengers();
@@ -156,10 +159,11 @@ public class CLI {
                     }
                     System.out.println("Enter Passenger ID");
                     try {
-                        Passenger passenger = bookingSystem.findPassByID(askForLine(in));
+                        Passenger passenger = bookingSystem.findPassByID(askForLine(in, 1));
                         passenger.printPassengerFlights();
                         System.out.println("Enter Flight ID");
-                        bookingSystem.cancelPassengerFlight(passenger, askForLine(in));
+                        String flightIDForCancel = in.next();
+                        bookingSystem.cancelPassengerFlight(passenger, flightIDForCancel);
                     } catch (Exception e){
                         System.out.println(e.getMessage());
                         break;
@@ -226,11 +230,17 @@ public class CLI {
         return userInput;
     }
 
-    private static String askForLine(Scanner in) {
-
+    private static String askForLine(Scanner in, int thisOrNext) {
         System.out.print("Enter a string data: ");
-        in.nextLine();
-        return in.nextLine();
+        switch (thisOrNext){
+            case 0:
+                return in.next();
+            case 1:
+                in.nextLine();
+                return in.nextLine();
+            default:
+                return null;
+        }
     }
 
     private static void addFlights(){

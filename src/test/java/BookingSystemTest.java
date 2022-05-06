@@ -48,31 +48,22 @@ class BookingSystemTest {
     }
 
     @Test
-    public void writeDetailsToFile(){
-        testFlight.setFlightID("3a282889-a162-42cc-bad7-7ddac1b78f93");
-        testFlight.setFlightDestination("London");
+    public void writeDetailsToFile() throws Exception {
+        //Given
+        testFlight.setFlightID("7d1f4f11-5e9e-4f79-9a92-c2cda3b10a34");
         testPassenger.setID("3a282889-a162-42cc-bad7-7ddac1b78f93");
-        testPassenger.setContactInfo(1234556);
-        testPassenger.setName("test");
         testSystem.addFlight(testFlight);
         testSystem.addPassenger(testPassenger);
-        try {
-            testSystem.addPassengerToFlight(testFlight.getFlightID(), testPassenger.getID());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        testSystem.writeDetailsToFile(testPassenger, testFlight);
 
-        File createdFile = new File("bookingDetails.txt");
-        File validFile = new File("src/test/Resources/validBookingDetails.txt");
+        //When
+        testSystem.addPassengerToFlight(testFlight.getFlightID(), testPassenger.getID());
 
-        try {
-            assertEquals("The files differ!",
-                    FileUtils.readFileToString(createdFile, "utf-8"),
-                    FileUtils.readFileToString(validFile, "utf-8"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        //Then
+        File generatedFile = new File("bookingDetails.txt");
+        File validTestFile = new File("src/test/Resources/validBookingDetails.txt");
+
+        assertEquals(FileUtils.readFileToString(generatedFile, "utf-8"),
+                FileUtils.readFileToString(validTestFile, "utf-8"));
 
     }
 
