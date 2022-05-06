@@ -1,17 +1,19 @@
 import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
 public class Flight {
 
     private ArrayList<Passenger> passengerManifest;
-    private int flightID;
+    private String flightID;
     private String flightDestination;
 
-    public Flight(int flightID, String flightDestination) {
+    public Flight(String flightDestination) {
         this.passengerManifest = new ArrayList<Passenger>();
-        this.flightID = flightID;
         this.flightDestination = flightDestination;
+        this.flightID = UUID.randomUUID().toString();
     }
+    //will create some flight objects in the CLI class
+
 
     public ArrayList<Passenger> getPassengerManifest() {
         return passengerManifest;
@@ -29,13 +31,11 @@ public class Flight {
         this.passengerManifest.remove(removedPassenger);
     }
 
-    public int getFlightID() {
+    public String getFlightID() {
         return flightID;
     }
 
-    public String getPrintFlightID() { return Integer.toString(flightID); }
-
-    public void setFlightID(int flightID) {
+    public void setFlightID(String flightID) {
         this.flightID = flightID;
     }
 
@@ -47,9 +47,8 @@ public class Flight {
         this.flightDestination = flightDestination;
     }
 
-
-
-
-
+    public void printManifest(){
+        passengerManifest.forEach(passenger -> System.out.println(passenger.getName()));
+    }
 
 }

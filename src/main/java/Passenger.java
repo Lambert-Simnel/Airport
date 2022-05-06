@@ -1,13 +1,18 @@
+import java.util.ArrayList;
+import java.util.UUID;
+
 public class Passenger {
 
     private String name;
-    private int ID;
-    private String contactInfo;
+    private String ID;
+    private int contactInfo;
+    private ArrayList<Flight> flightsBooked;
 
-    public Passenger(String name, int ID, String contactInfo) {
+    public Passenger(String name, int contactInfo) {
         this.name = name;
-        this.ID = ID;
         this.contactInfo = contactInfo;
+        this.ID = UUID.randomUUID().toString();
+        this.flightsBooked = new ArrayList<Flight>();
     }
 
     public String getName() {
@@ -18,22 +23,41 @@ public class Passenger {
         this.name = name;
     }
 
-    public int getID() {
+    public String getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(String ID) {
         this.ID = ID;
     }
 
-    public String getContactInfo() {
+    public int getContactInfo() {
         return contactInfo;
     }
 
-    public void setContactInfo(String contactInfo) {
+    public void setContactInfo(int contactInfo) {
         this.contactInfo = contactInfo;
     }
 
+    public ArrayList<Flight> getFlightsBooked() {
+        return flightsBooked;
+    }
 
+    public void setFlightsBooked(ArrayList<Flight> flightsBooked) {
+        this.flightsBooked = flightsBooked;
+    }
 
+    public void addFlight(Flight flight){
+        flightsBooked.add(flight);
+    }
+
+    public void removeFlight(Flight flight){
+        flightsBooked.remove(flight);
+    }
+
+    public void printPassengerFlights() throws Exception{
+        if(flightsBooked.isEmpty()){
+            throw new Exception("\nNo flights booked!");
+        } else flightsBooked.forEach(flight -> System.out.println(flight.getFlightID() + " - " + flight.getFlightDestination()));
+    }
 }
