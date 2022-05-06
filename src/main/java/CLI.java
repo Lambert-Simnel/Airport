@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class CLI {
 
@@ -11,6 +8,10 @@ public class CLI {
 
 
     public static void main(String[] args) {
+
+        addFlights();
+        addPassengers();
+        System.out.println("Airline Management Console");
 
         do {
             displayMainMenu();
@@ -51,7 +52,7 @@ public class CLI {
                     }
                     break;
                 case 3:
-                    System.out.println("You are trying to delete the flight route");
+                    System.out.println("Select flight to cancel");
                     try {
                         bookingSystem.printFLights();
                     } catch (Exception e){
@@ -60,37 +61,51 @@ public class CLI {
                     }
                     System.out.println("Please input the flight ID");
                     String flightIDForCancel = askForLine(in);
-                    Flight flightLineToCancel = bookingSystem.findFlightByID(flightIDForCancel);
-                    bookingSystem.cancelFlight(flightLineToCancel);
+                    try {
+                        Flight flightLineToCancel = bookingSystem.findFlightByID(flightIDForCancel);
+                        bookingSystem.cancelFlight(flightLineToCancel);
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case 4:
                     boolean searchLoop = true;
-                    bookingSystem.addFlight(new Flight("London"));
                     while(searchLoop) {
-                    System.out.println("Enter destination you want to search for or EXIT to exit");
+                    System.out.println("Enter destination you want to search for or type \"EXIT\" to exit");
                         String searchDestination = askForLine(in);
                         try {
                             if (searchDestination.equals("EXIT")) {
                                 searchLoop = false;
                             } else {
                                 bookingSystem.findAndPrintFlightByDestination(searchDestination);
+                                searchLoop = false;
                             }
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
+                            searchLoop = false;
                         }
                     }
                     break;
 
                 case 5:
-//                    bookingSystem.printFLights();
+                    try {
+                        bookingSystem.printFLights();
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                        break;
+                    }
                     System.out.println("Enter Flight ID");
-                    bookingSystem.findFlightByID(askForLine(in)).printManifest();
+                    try {
+                        bookingSystem.findFlightByID(askForLine(in)).printManifest();
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 6:
                     break;
             }
-        } while (menuSelection != 5);
+        } while (menuSelection != 6);
     }
 
     private static void passengerManagement(){
@@ -109,39 +124,59 @@ public class CLI {
                     bookingSystem.addPassenger(new Passenger(name, contactInfo));
                     break;
                 case 2:
-//                    bookingSystem.printFLights();
+                    try {
+                        bookingSystem.printFLights();
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                        break;
+                    }
                     System.out.println("Enter Flight ID");
                     String flightID = askForLine(in);
-                    bookingSystem.printPassengers();
+                    try {
+                        bookingSystem.printPassengers();
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                        break;
+                    }
                     System.out.println("Enter Passenger ID");
                     String passID = askForLine(in);
                     try {
                         bookingSystem.addPassengerToFlight(flightID, passID);
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
+                        break;
                     }
                     break;
                 case 3:
-                    bookingSystem.printPassengers();
-                    System.out.println("Enter Passenger ID");
-                    passID = askForLine(in);
-                    System.out.println("Enter Flight ID");
-                    flightID = askForLine(in);
                     try {
-                        bookingSystem.cancelFlightWithId(passID);
-                    } catch (RuntimeException e) {
-                        System.out.println("You entered an invalid ID");
+                        bookingSystem.printPassengers();
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                        break;
+                    }
+                    System.out.println("Enter Passenger ID");
+                    try {
+                        Passenger passenger = bookingSystem.findPassByID(askForLine(in));
+                        passenger.printPassengerFlights();
+                        System.out.println("Enter Flight ID");
+                        bookingSystem.cancelPassengerFlight(passenger, askForLine(in));
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                        break;
                     }
                     break;
                 case 4:
                     System.out.println("All passengers :");
-                    bookingSystem.printPassengers();
+                    try {
+                        bookingSystem.printPassengers();
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 5:
                     break;
-
             }
-        } while (menuSelection != 4);
+        } while (menuSelection != 5);
     }
 
     private static void displayMainMenu() {
@@ -150,7 +185,7 @@ public class CLI {
         System.out.println("Select an Option:");
         System.out.println("1) Flight management");
         System.out.println("2) Passenger management");
-        System.out.println("3) Quit");
+        System.out.println("3) Shut down");
         System.out.println("===================");
     }
 
@@ -196,5 +231,26 @@ public class CLI {
         System.out.print("Enter a string data: ");
         in.nextLine();
         return in.nextLine();
+    }
+
+    private static void addFlights(){
+        bookingSystem.addFlight(new Flight("London"));
+        bookingSystem.addFlight(new Flight("New York"));
+        bookingSystem.addFlight(new Flight("Sydney"));
+        bookingSystem.addFlight(new Flight("Los Angeles"));
+        bookingSystem.addFlight(new Flight("Beijing"));
+        bookingSystem.addFlight(new Flight("Bangkok"));
+        bookingSystem.addFlight(new Flight("Paris"));
+        bookingSystem.addFlight(new Flight("Berlin"));
+    }
+
+    private static void addPassengers(){
+        bookingSystem.addPassenger(new Passenger("Edward", 8236438));
+        bookingSystem.addPassenger(new Passenger("Falak", 456789));
+        bookingSystem.addPassenger(new Passenger("Joseph", 92372));
+        bookingSystem.addPassenger(new Passenger("Carol", 873239));
+        bookingSystem.addPassenger(new Passenger("Colin", 834674));
+        bookingSystem.addPassenger(new Passenger("Lucasz", 462784));
+        bookingSystem.addPassenger(new Passenger("Valeria", 3346943));
     }
 }

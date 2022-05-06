@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class BookingSystem {
@@ -28,14 +29,28 @@ public class BookingSystem {
     }
 
     public void cancelFlightWithId(String id){
-
         flights.removeIf(flight -> flight.getFlightID().equals(id));
     }
 
-    public Flight findFlightByID(String flightID){
-        return flights.stream().filter(flight-> flight.getFlightID().equals(flightID)).findAny().orElse(null);
+    public void cancelPassengerFlight(Passenger passenger, String flightID){
+        Flight flight = flights.stream().filter(f-> f.getFlightID().equals(flightID)).findAny().orElse(null);
+        passenger.removeFlight(flight);
     }
 
+    public Flight findFlightByID(String flightID) throws Exception{
+        Flight flight = flights.stream().filter(f-> f.getFlightID().equals(flightID)).findAny().orElse(null);
+        if (flight == null){
+            throw new Exception("\nFlight not found!");
+        } else return flight;
+    }
+
+    public Passenger findPassByID(String passID) throws Exception{
+        Passenger passenger = passengers.stream().filter(p -> p.getID().equals(passID)).findAny().orElse(null);
+        if (passenger == null){
+            throw new Exception("\nPassenger not found!");
+        }
+        else return passenger;
+    }
 
 
 // create id for the passenger and add passenger to the flight, find passenger
@@ -46,20 +61,16 @@ public class BookingSystem {
     public void addPassengerToFlight(String flightID, String passID) throws Exception{
         Flight flight = findFlightByID(flightID);
         if (flight == null){
-            throw new Exception("Invalid flight no." + flightID);
+            throw new Exception("\nInvalid flight no." + flightID);
         }
         Passenger passenger = findPassByID(passID);
         if (passenger == null){
-            throw new Exception("Invalid passenger no." + passID);
+            throw new Exception("\nInvalid passenger no." + passID);
         }
         flight.addPassenger(passenger);
+        passenger.addFlight(flight);
         writeDetailsToFile(passenger, flight);
     }
-
-    public Passenger findPassByID(String passID){
-        return passengers.stream().filter(passenger -> passenger.getID().equals(passID)).findAny().orElse(null);
-    }
-
 
 // print details
     public void writeDetailsToFile(Passenger passenger, Flight flight){
@@ -80,7 +91,7 @@ public class BookingSystem {
 
     public void findAndPrintFlightByDestination(String targetDestination) throws Exception{
         if (flights.stream().noneMatch(f -> f.getFlightDestination().equals(targetDestination))){
-                    throw new Exception("Destination not found!");
+                    throw new Exception("\nDestination not found!");
                 } else{
             flights.stream().filter(f -> f.getFlightDestination().equals(targetDestination)).forEach(flight -> System.out.println(flight.getFlightID() + " - " + flight.getFlightDestination()));
         }
@@ -93,12 +104,14 @@ public class BookingSystem {
 
     public void printFLights() throws Exception{
         if(flights.isEmpty()){
-            throw new Exception("No flights!");
+            throw new Exception("\nNo flights!");
         } else flights.forEach(flight -> System.out.println(flight.getFlightID() + " - " + flight.getFlightDestination()));
     }
 
-    public void printPassengers() {
-        passengers.forEach(passenger -> System.out.println(passenger.getID() + " - " + passenger.getName()));
+    public void printPassengers() throws Exception{
+        if(passengers.isEmpty()){
+            throw new Exception("\nNo passengers!");
+        } else passengers.forEach(passenger -> System.out.println(passenger.getID() + " - " + passenger.getName()));
     }
 
     public List<Passenger> getPassengers() {
