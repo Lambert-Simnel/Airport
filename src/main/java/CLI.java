@@ -162,15 +162,15 @@ public class CLI {
                         Passenger passenger = bookingSystem.findPassByID(askForLine(in, 1));
                         passenger.printPassengerFlights();
                         System.out.println("Enter Flight ID");
-                        String flightIDForCancel = in.next();
-                        bookingSystem.cancelPassengerFlight(passenger, flightIDForCancel);
+                        bookingSystem.cancelPassengerFlight(passenger, askForLine(in, 0));
+                        System.out.println("Flight cancelled");
                     } catch (Exception e){
                         System.out.println(e.getMessage());
                         break;
                     }
                     break;
                 case 4:
-                    System.out.println("All passengers :");
+                    System.out.println("All passengers:");
                     try {
                         bookingSystem.printPassengers();
                     } catch (Exception e){
