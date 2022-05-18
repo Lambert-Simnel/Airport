@@ -49,6 +49,9 @@ public class Flight {
 
     public void printManifest(){
         passengerManifest.forEach(passenger -> System.out.println(passenger.getName()));
+        if (passengerManifest.isEmpty()){
+            System.out.println("\nNo passengers booked onto this flight!");
+        }
     }
 
 }

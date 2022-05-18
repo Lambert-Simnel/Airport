@@ -1,10 +1,7 @@
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
 
 public class BookingSystem {
 
@@ -35,6 +32,7 @@ public class BookingSystem {
     public void cancelPassengerFlight(Passenger passenger, String flightID){
         Flight flight = flights.stream().filter(f-> f.getFlightID().equals(flightID)).findAny().orElse(null);
         passenger.removeFlight(flight);
+        flight.removePassenger(passenger);
     }
 
     public Flight findFlightByID(String flightID) throws Exception{
@@ -48,22 +46,19 @@ public class BookingSystem {
         Passenger passenger = passengers.stream().filter(p -> p.getID().equals(passID)).findAny().orElse(null);
         if (passenger == null){
             throw new Exception("\nPassenger not found!");
-        }
-        else return passenger;
+        } else return passenger;
     }
 
-
-// create id for the passenger and add passenger to the flight, find passenger
     public void addPassenger(Passenger passenger) {
         passengers.add(passenger);
     }
 
     public void addPassengerToFlight(String flightID, String passID) throws Exception{
         Flight flight = findFlightByID(flightID);
+        Passenger passenger = findPassByID(passID);
         if (flight == null){
             throw new Exception("\nInvalid flight no." + flightID);
         }
-        Passenger passenger = findPassByID(passID);
         if (passenger == null){
             throw new Exception("\nInvalid passenger no." + passID);
         }
@@ -72,7 +67,6 @@ public class BookingSystem {
         writeDetailsToFile(passenger, flight);
     }
 
-// print details
     public void writeDetailsToFile(Passenger passenger, Flight flight){
         try {
             FileWriter fileWriter = new FileWriter("bookingDetails.txt");
@@ -86,8 +80,6 @@ public class BookingSystem {
             throw new RuntimeException(e);
         }
     }
-
-
 
     public void findAndPrintFlightByDestination(String targetDestination) throws Exception{
         if (flights.stream().noneMatch(f -> f.getFlightDestination().equals(targetDestination))){
